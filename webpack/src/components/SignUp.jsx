@@ -1,9 +1,46 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { TEInput, TERipple } from "tw-elements-react";
+import axios from "axios";
+import { baseURL } from '../services/axios-config';
+import { useState } from "react";
 
 export default function SignUp(){
-    let navigate=useNavigate()
+    let navigate=useNavigate();
+    console.log("rendered");
+    const [obj,setObj]=useState({
+        email:"",
+        pass:"",
+    });
+    
+
+    function doUpdate(event)
+    {
+      console.log(name);
+      console.log(value);
+        var { name, value } = event.target;
+
+        setObj({ ...obj,[name]: value});
+    }
+    async function doSignup()
+    {
+       const url = `${baseURL}/signup/user-signup`;
+      const serverMsg= await axios.post(url,obj);
+      
+      //  console.log(serverMsg)
+     //   alert(JSON.stringify(serverMsg));
+        if(serverMsg.data.status==true)
+        {
+          alert("Signedup Successfullyyyyy");
+        }
+           
+        else    
+        {
+          alert(serverMsg.data.err);
+        }
+            
+          
+    }
   return (
     <>
      <div className="bg-gray-900 text-white min-h-screen p-10">
@@ -53,7 +90,10 @@ export default function SignUp(){
             <form>
               {/* <!-- Email input --> */}
               <TEInput
+              id="email"
+              name="email"
                 type="email"
+                onChange={doUpdate}
                 label="Email address"
                 size="lg"
                 className="mb-6 text-white"
@@ -61,6 +101,9 @@ export default function SignUp(){
 
               {/* <!--Password input--> */}
               <TEInput
+              id="pass"
+              name="pass"
+              onChange={doUpdate}
                 type="password"
                 label="Password"
                 className="mb-6 text-white"
@@ -73,6 +116,7 @@ export default function SignUp(){
               <TERipple rippleColor="light" className="w-full">
                 <button
                   type="button"
+                  onClick={doSignup}
                   className="inline-block w-full rounded bg-purple-600 px-7 pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#8f32ed] transition duration-150 ease-in-out hover:bg-purple-700 hover:shadow-[0_8px_9px_-4px_rgba(144, 50, 237,0.3),0_4px_18px_0_rgba(144, 50, 237,0.2)] focus:bg-purple-700 focus:shadow-[0_8px_9px_-4px_rgba(144, 50, 237,0.3),0_4px_18px_0_rgba(144, 50, 237,0.2)] focus:outline-none focus:ring-0 active:bg-purple-700 active:shadow-[0_8px_9px_-4px_rgba(144, 50, 237,0.3),0_4px_18px_0_rgba(144, 50, 237,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(144, 50, 237,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(144, 50, 237,0.2),0_4px_18px_0_rgba(144, 50, 237,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(144, 50, 237,0.2),0_4px_18px_0_rgba(144, 50, 237,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(144, 50, 237,0.2),0_4px_18px_0_rgba(144, 50, 237,0.1)]"
                 >
                   Sign up

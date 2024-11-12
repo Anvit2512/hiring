@@ -1,9 +1,37 @@
 import React from 'react';
+import axios from "axios";
 import googlepic from "../assets/googlepic.png"
 import { TEInput, TERipple } from "tw-elements-react";
 import { useNavigate } from 'react-router-dom';
+import { baseURL } from '../services/axios-config';
+import { useState } from "react";
+
 const SignIn = () => {
-  let navigate=useNavigate()
+  let navigate=useNavigate();
+  const [obj,setObj]=useState({
+    email:"",                          
+    pass:""
+})
+function doUpdate(event) 
+{
+    const {name,value}=event.target;
+    setObj({...obj,[name]:value});
+}
+
+async function doSignIn()
+{
+    const url=`${baseURL}/signin/user-signin`;
+    const serverMsg=await axios.post(url,obj);
+    console.log(serverMsg.data);
+    if(serverMsg.data.status===true)
+    {
+      alert("SignIn Successfully...");
+        navigate("/");
+    }
+    else {
+        alert(serverMsg.data.message);
+    }
+}
   return (
     <>
      <div className="bg-gray-900 text-white min-h-screen p-10">
@@ -57,15 +85,31 @@ const SignIn = () => {
         {/* Email input field */}
         <div>
         <TEInput
+                id='email'
+                name='email'
                 type="email"
+                onChange={doUpdate}
                 label="Email address"
+                size="lg"
+                className="mb-6 text-white"
+              ></TEInput>
+        </div>
+        <div>
+        <TEInput
+                id='pass'
+                name='pass'
+                type="password"
+                onChange={doUpdate}
+                label="Password"
                 size="lg"
                 className="mb-4 text-white"
               ></TEInput>
         </div>
 
         {/* Send magic link button */}
-        <button className="w-full py-2 mt-4 bg-white text-gray-900 font-semibold rounded-md hover:bg-gray-200 transition duration-200">
+        <button
+        onChange={doSignIn} 
+        className="w-full py-2 mt-4 bg-white text-gray-900 font-semibold rounded-md hover:bg-gray-200 transition duration-200">
           Sign In
         </button>
 

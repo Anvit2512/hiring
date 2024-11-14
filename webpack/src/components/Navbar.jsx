@@ -1,13 +1,9 @@
 import React from "react";
-import { FaUserCheck, FaUserFriends, FaUserAlt, FaUserCircle,FaCheckCircle,FaMicrophone, FaBook, FaChartBar, FaHeart } from 'react-icons/fa';
-import InterviewsCreated from "./InterviewsCreated";
-import StartNowForm from "./StartNowForm";
 import { useNavigate } from 'react-router-dom'
-export default function Index() {
+export default function Navbar() {
   let navigate=useNavigate();
   return(
     <>
-
 
 {/* Header */}
 <header className="flex justify-between items-center mb-16">

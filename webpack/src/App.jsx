@@ -4,11 +4,8 @@ import Index from "./components";
 import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
 import InterviewPreparation from "./components/InterviewPreparation";
-<<<<<<< HEAD
-import Navbar from "./components/Navbar";
-=======
 import Footer from "./components/Footer";
->>>>>>> ebebd901168728012f1b31fe1924d312ebdf0880
+
 function App() {
   return (
     <>

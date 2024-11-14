@@ -4,6 +4,7 @@ import Index from "./components";
 import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
 import InterviewPreparation from "./components/InterviewPreparation";
+import Navbar from "./components/Navbar";
 function App() {
   return (
     <>

@@ -26,26 +26,26 @@ function doSaveUserSignup(req,resp)
       })  
 }
 
-function doSaveUserSignin(req,resp)
-{
-   // console.log(req.body);
-    const {email,pass}=req.body;
-    SignModel.findOne({email:email,pass:pass}).then((retDoc)=>{
-       // console.log(retDoc);
-      
-        if(retDoc!=null)
-        {
-            // CREATION OF WEB TOKEN
-    //    let skey=process.env.SEC_KEY;
-    //    let token=jwt.sign({retDoc},skey,{expiresIn:"1h"}); // Need both retDoc and skey to create token
-            resp.json({status:true,msg:retDoc});
+function doSaveUserSignin(req, resp) {
+    const { email, pass } = req.body;
+  
+    // Check if the email exists in the database
+    SignModel.findOne({ email: email }).then((user) => {
+      if (user) {
+        // Check if the password matches
+        if (user.pass === pass) {
+          resp.json({ status: true, msg: user });
+        } else {
+          // Incorrect password
+          resp.json({ status: false, msg: "Incorrect Email or Password" });
         }
-        else {
-            resp.json({status:true,msg:"Login Failed Try Again!"});
-        }
-    }).catch((err)=>{
-        resp.json({status:false,err:err.message});
-    })
-}
-
+      } else {
+        // Email not found in the database
+        resp.json({ status: false, msg: "There is No Account Registered with this Email Address" });
+      }
+    }).catch((err) => {
+      resp.json({ status: false, err: err.message });
+    });
+  }
+  
 module.exports={doSaveUserSignup,doSaveUserSignin};

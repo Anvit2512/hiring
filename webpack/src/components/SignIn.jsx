@@ -20,54 +20,39 @@ function doUpdate(event)
     setObj({...obj,[name]:value});
 }
 
-function Success()
-{
-  alert("Yes");
-  <div class="bg-teal-50 border-t-2 border-teal-500 rounded-lg p-4 dark:bg-teal-800/30" role="alert" tabindex="-1" aria-labelledby="hs-bordered-success-style-label">
-  <div class="flex">
-    <div class="shrink-0">
-   
-      <span class="inline-flex justify-center items-center size-8 rounded-full border-4 border-teal-100 bg-teal-200 text-teal-800 dark:border-teal-900 dark:bg-teal-800 dark:text-teal-400">
-        <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
-          <path d="m9 12 2 2 4-4"></path>
-        </svg>
-      </span>
-   
-    </div>
-    <div class="ms-3">
-      <h3 id="hs-bordered-success-style-label" class="text-gray-800 font-semibold dark:text-white">
-        SignedIn Successfully.
-      </h3>
-      <p class="text-sm text-gray-700 dark:text-neutral-400">
-        You have successfully SignedIn...
-      </p>
-    </div>
-  </div>
-</div>
+
+async function doSignIn() {
+  // Check if email or password is empty
+  if (obj.email.trim() === "" || obj.pass.trim() === "") {
+    alert("Please fill the email and password");
+    return;
+  }
+
+  const url = `${baseURL}/signin/user-signin`;
+  try {
+    const serverMsg = await axios.post(url, obj);
+    console.log(serverMsg.data);
+
+    if (serverMsg.data.status === true) {
+      alert("SignIn Successfully...");
+      navigate("/");
+    } else {
+      // Handle specific error messages
+      if (serverMsg.data.msg === "Incorrect Email or Password") {
+        alert("Incorrect Email or Password");
+      } else if (serverMsg.data.msg === "There is No Account Registered with this Email Address") {
+        alert("There is No Account Registered with this Email Address");
+      } else {
+        alert(serverMsg.data.msg || "An unknown error occurred");
+      }
+    }
+  } catch (error) {
+    console.error("Error signing in:", error);
+    alert("An error occurred. Please try again later.");
+  }
 }
 
-async function doSignIn()
-{
-    const url=`${baseURL}/signin/user-signin`;
-    const serverMsg=await axios.post(url,obj);
-    console.log(serverMsg.data);
-    if(serverMsg.data.status===true)
-    {
-      if(serverMsg.data.msg=="Login Failed Try Again!")
-      alert(serverMsg.data.msg);
-    else
-    {
-      alert("SignIn Successfully...")
-      navigate("/");
-    }
-        
-    }
-    else {
-        alert(serverMsg.data.message);
-        return;
-    }
-}
+
   return (
     <>
      <div className="bg-gray-900 text-white min-h-screen p-10">

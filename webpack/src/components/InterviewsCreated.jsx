@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 
 const InterviewCard = ({ position, company, candidate }) => {
   return (
@@ -13,7 +13,7 @@ const InterviewCard = ({ position, company, candidate }) => {
   );
 };
 
-const InterviewsCreated = () => {
+const InterviewsCreated = forwardRef((props,ref)=> {
   const interviews = [
     { position: "Software Engineer", company: "Microsoft", candidate: "John Doe" },
     { position: "Tech Art", company: "Blizzard", candidate: "Kraod" },
@@ -25,7 +25,7 @@ const InterviewsCreated = () => {
   ];
 
   return (
-    <div className="bg-gray-900 min-h-fit p-6 mb-12">
+    <div ref={ref} className="bg-gray-900 min-h-fit p-6 mb-12">
       <h2 className="text-center text-2xl font-bold mb-8">Interviews Created</h2>
       <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-4">
         {interviews.map((interview, index) => (
@@ -39,6 +39,6 @@ const InterviewsCreated = () => {
       </div>
     </div>
   );
-};
+});
 
 export default InterviewsCreated;

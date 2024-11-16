@@ -5,6 +5,7 @@ import axios from "axios";
 import { baseURL } from '../services/axios-config';
 import { useState } from "react";
 import Navbar from "./Navbar";
+import DashNavbar from "./DashNavbar";
 
 export default function SignUp(){
     let navigate=useNavigate();
@@ -45,7 +46,7 @@ export default function SignUp(){
   return (
     <>
      <div className="bg-gray-900 text-white min-h-screen p-10">
-    <Navbar></Navbar>
+     <DashNavbar></DashNavbar>
 
 
     <section className="mt-1">

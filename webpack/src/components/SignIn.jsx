@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { baseURL } from '../services/axios-config';
 import { useState } from "react";
 import Navbar from './Navbar';
+import DashNavbar from './DashNavbar';
 
 const SignIn = () => {
   let navigate=useNavigate();
@@ -70,7 +71,7 @@ async function doSignIn()
   return (
     <>
      <div className="bg-gray-900 text-white min-h-screen p-10">
-    <Navbar></Navbar>
+    <DashNavbar></DashNavbar>
 
     <div className="flex items-center justify-center min-h-screen bg-gray-900">
       <div className="bg-gray-900 p-8 rounded-lg mb-[150px] w-[400px]">

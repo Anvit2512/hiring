@@ -18,10 +18,24 @@ export default function Index() {
   let navigate = useNavigate();
   // Create a ref for StartNowForm
   const startNowRef = useRef(null);
+  const featuresRef = useRef(null);
+  const interviewsRef = useRef(null);
 
   const handleStartNowClick = () => {
     if (startNowRef.current) {
       startNowRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const handleFeaturesClick = () => {
+    if (featuresRef.current) {
+      featuresRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const handleInterviewsClick = () => {
+    if (interviewsRef.current) {
+      interviewsRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -55,13 +69,13 @@ export default function Index() {
               Home
             </a>
             <a
-              href="#"
+            onClick={handleFeaturesClick}
               className="font-semibold bg-gradient-to-r from-pink-500 via-pink-400 to-pink-300 bg-clip-text text-transparent hover:text-white transition duration-500"
             >
               Features
             </a>
             <a
-              href="#"
+            onClick={handleInterviewsClick}
               className="font-semibold bg-gradient-to-r  from-purple-500 via-purple-400 to-purple-300 bg-clip-text text-transparent hover:text-white transition duration-500"
             >
               Interviews
@@ -253,7 +267,10 @@ export default function Index() {
                 </div>
               </div>
 
-              <div className="bg-gray-900 text-white py-10 mt-6">
+              <div
+              ref={featuresRef} 
+              className="bg-gray-900 text-white py-10 mt-6">
+                <h2 className="text-center text-2xl font-bold mb-12">Features</h2>
                 <div className="container mx-auto flex justify-center space-x-10">
                   {/* Feature Item */}
                   <div className="flex flex-col items-center text-center">
@@ -301,7 +318,7 @@ export default function Index() {
                 </div>
               </div>
 
-              <InterviewsCreated></InterviewsCreated>
+              <InterviewsCreated ref={interviewsRef} ></InterviewsCreated>
               <StartNowForm ref={startNowRef} />
             </div>
           </div>

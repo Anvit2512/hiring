@@ -3,7 +3,17 @@ import Navbar from "./Navbar";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { baseURL } from '../services/axios-config';
-
+import {
+  FaUserCheck,
+  FaUserFriends,
+  FaUserAlt,
+  FaUserCircle,
+  FaCheckCircle,
+  FaMicrophone,
+  FaBook,
+  FaChartBar,
+  FaHeart,
+} from "react-icons/fa";
 const InterviewPreparation = () => {
   const [suggestions, setSuggestions] = useState([]);
   const { id } = useParams(); // Retrieve ID from route params
@@ -35,13 +45,29 @@ const InterviewPreparation = () => {
         </h2>
         <div className="grid grid-cols-2 gap-6">
           {suggestions.map((suggestion, index) => (
+            // <div
+            //   key={index}
+            //   className="bg-gray-800 p-4 rounded-lg text-white"
+            // >
+            //   <h3 className="text-xl font-bold">{suggestion}</h3>
+            // </div>
             <div
-              key={index}
-              className="bg-gray-800 p-4 rounded-lg text-white"
-            >
-              <h3 className="text-xl font-bold">{suggestion.title}</h3>
-              <p>{suggestion.description}</p>
-            </div>
+            key={index} 
+            className="bg-gray-800 p-6 rounded-lg shadow-lg w-full">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-xl font-semibold text-white">
+                      {suggestion}
+                    </h3>
+                    <span className="text-green-400 font-semibold">
+                      50% Done
+                    </span>
+                    <FaUserAlt className="text-yellow-400" size={24} />
+                  </div>
+                <div className=" h-[100px] overflow-hidden bg-gradient-to-r from-purple-700 via-purple-800 to-blue-800 rounded-lg">
+              <p className="text-xl font-semibold text-white"></p>
+                </div>
+                 
+                </div>
           ))}
         </div>
       </div>

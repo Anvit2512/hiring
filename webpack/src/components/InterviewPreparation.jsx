@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { baseURL } from '../services/axios-config';
+import { baseURL } from "../services/axios-config";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleRight } from "@fortawesome/free-solid-svg-icons";
 
 const InterviewPreparation = () => {
   const [suggestions, setSuggestions] = useState([]);
@@ -11,7 +13,7 @@ const InterviewPreparation = () => {
   useEffect(() => {
     console.log("Fetching suggestions for ID:", id);
     const fetchSuggestions = async () => {
-    const url = `${baseURL}/api/suggestions/${id}`;
+      const url = `${baseURL}/api/suggestions/${id}`;
       try {
         const response = await axios.get(url);
         console.log("Fetched suggestions:", response.data);
@@ -37,10 +39,30 @@ const InterviewPreparation = () => {
           {suggestions.map((suggestion, index) => (
             <div
               key={index}
-              className="bg-gray-800 p-4 rounded-lg text-white"
+              className="bg-gray-800 p-6 rounded-lg shadow-lg w-full"
             >
-              <h3 className="text-xl font-bold">{suggestion.title}</h3>
-              <p>{suggestion.description}</p>
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-xl font-semibold text-white">
+                  {suggestion}
+                </h3>
+                <span
+                  className="font-semibold text-[#a3ff00]"
+                  style={{ color: "#a3ff00" }}
+                >
+                  50% Done
+                </span>
+                <FontAwesomeIcon
+                  icon={faCircleRight}
+                  className="text-green-400 hover:scale-110 hover:text-green-500 transition-transform duration-300 cursor-pointer"
+                  size="2xl"
+                />
+              </div>
+              <div
+                className="flex-grow bg-gradient-to-r from-purple-700 via-purple-800 to-blue-800 rounded-lg p-4 overflow-hidden"
+                style={{ height: "auto" }}
+              >
+                <p className="text-lg text-white">{suggestion.description}</p>
+              </div>
             </div>
           ))}
         </div>

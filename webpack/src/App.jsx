@@ -28,7 +28,7 @@ function App() {
             <Route path="/" element={<Index />} />
             <Route path="/toSignIn" element={<SignIn />} />
             <Route path="/toSignUp" element={<SignUp />} />
-            <Route path="/toIntrvPrep" element={<InterviewPreparation />} />
+            <Route path="/toIntrvPrep/:id" element={<InterviewPreparation />} />
           </Routes>
           <Footer />
         </>

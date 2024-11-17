@@ -1,11 +1,13 @@
-const express=require('express');
-const {doSaveUserSignup,doSaveUserSignin}=require('../controller/UController')
-// const validateTokenWithNext=require("../auth/validate-token-with-next");
-const app=express.Router();
+const express = require("express");
+const { doSaveUserSignup, doSaveUserSignin, processForm, fetchSuggestions } = require("../controller/UController");
 
-app.post("/user-signup",doSaveUserSignup);
-app.post("/user-signin",doSaveUserSignin);
+const app = express.Router();
 
-// app.post("/user-login",doSaveUserLogin);
+app.post("/user-signup", doSaveUserSignup);
+app.post("/user-signin", doSaveUserSignin);
 
-module.exports=app;
+// New Routes
+app.post("/process-form", processForm);
+app.get("/suggestions/:id", fetchSuggestions);
+
+module.exports = app;

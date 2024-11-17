@@ -29,3 +29,4 @@ app.use(fileUploader());
 
 app.use("/signup",Router);
 app.use("/signin",Router);
+app.use("/api",Router);

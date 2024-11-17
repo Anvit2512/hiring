@@ -108,4 +108,3 @@ async function fetchSuggestions(req, resp) {
 }
 
 module.exports = { doSaveUserSignup, doSaveUserSignin, processForm, fetchSuggestions };
-

@@ -67,9 +67,18 @@ async function processForm(req, resp) {
 
     // Generate sample suggestions (Replace with actual processing logic)
     jobSuggestion.suggestedCourses = [
-      "Course A: Advanced React",
-      "Course B: Leadership in Tech",
-      "Course C: Data Structures Mastery",
+      {
+        coarsename:"Course A: Advanced React",
+        description:"This is coarse A that is advanced React and u will learn "
+      },
+      {
+        coarsename:"Course B: Leadership in Tech",
+        description:"This is coarse B that is advanced React and u will learn "
+      },
+      {
+        coarsename:"Course C: Data Structures Mastery",
+        description:"This is coarse C that is advanced React and u will learn"
+      },
     ];
 
     const savedDoc = await jobSuggestion.save();

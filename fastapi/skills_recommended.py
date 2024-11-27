@@ -201,8 +201,8 @@ def recommend_skills_and_courses(username, company, position, job_description):
 
               Based on this information, please respond with:
 
-              A list of 5-7 skills they should focus on. Ensure they are highly relevant to their role.
-              A list of 3 online courses or certifications along with the key skills they will learn from each course.
+              A list of 10-12 skills they should focus on. Ensure they are highly relevant to their role.
+              A list of 4 online courses or certifications along with the key skills they will learn from each course.
               Example Output:
 
               Skills:
@@ -229,6 +229,12 @@ def recommend_skills_and_courses(username, company, position, job_description):
               Skill 1
               Skill 2
               Skill 3
+
+                Course 4: [Course Name] - [Platform]
+              
+              Skill 1
+              Skill 2
+              Skill 3
               """
 
     # Call the OpenAI API
@@ -239,7 +245,7 @@ def recommend_skills_and_courses(username, company, position, job_description):
                 {"role": "system", "content": "You are a helpful career guidance assistant."},
                 {"role": "user", "content": prompt}
             ],
-            max_tokens=500,
+            max_tokens=1000,
             temperature=0.7,
         )
 

@@ -341,6 +341,30 @@ async function handleJobSuggestion(req, res) {
   }
 }
 
+async function getSuggestionsById(req, res) {
+  const { id } = req.params;
 
-module.exports = { doSaveUserSignup, doSaveUserSignin, processForm, fetchSuggestions, handleJobSuggestion};
+  try {
+    const jobSuggestions = await JobSuggestionModel.findById(id);
+    if (!jobSuggestions) {
+      return res.status(404).json({
+        status: false,
+        message: "No suggestions found for the given ID",
+      });
+    }
+
+    res.status(200).json({
+      status: true,
+      data: jobSuggestions,
+    });
+  } catch (error) {
+    console.error("Error fetching suggestions:", error);
+    res.status(500).json({
+      status: false,
+      message: error.message,
+    });
+  }
+}
+
+module.exports = { doSaveUserSignup, doSaveUserSignin, processForm, fetchSuggestions, handleJobSuggestion,getSuggestionsById};
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////

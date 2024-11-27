@@ -51,7 +51,7 @@ export default function Index() {
               navigate("/");
             }}
           >
-            <h1 className="text-5xl font-bold flex">
+            <h1 className="text-5xl font-bold flex cursor-pointer">
               <span className="text-blue-400">U</span>
               <span className="bg-gradient-to-r from-pink-500 via-purple-500 to-purple-600 bg-clip-text text-transparent">
                 HIRE
@@ -59,7 +59,7 @@ export default function Index() {
             </h1>
           </a>
 
-          <nav className="flex-1 flex justify-end space-x-8 text-gray-300 font-semibold text-lg mr-10">
+          <nav className="flex-1 flex justify-end space-x-8 text-gray-300 font-semibold text-lg mr-10 cursor-pointer">
             <a
               onClick={() => {
                 navigate("/");

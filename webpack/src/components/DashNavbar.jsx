@@ -9,7 +9,7 @@ export default function DashNavbar() {
 <header className="flex justify-between items-center mb-16">
   {/* Logo */}
   <a onClick={()=>{navigate("/")}}>
-  <h1 className="text-5xl font-bold flex">
+  <h1 className="text-5xl font-bold flex cursor-pointer">
 <span className="text-blue-400">U</span>
 <span className="bg-gradient-to-r from-pink-500 via-purple-500 to-purple-600 bg-clip-text text-transparent">
   HIRE

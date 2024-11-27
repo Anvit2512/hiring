@@ -20,15 +20,59 @@
 
 // module.exports = { getJobSuggestionModel };
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// const mongoose = require("mongoose");
+
+// function getJobSuggestionModel() {
+//   // Define a sub-schema for suggested courses
+//   const CourseSchema = new mongoose.Schema(
+//     {
+//       courseName: { type: String, required: true }, // Field for course name
+//       description: { type: String, required: true }, // Field for course description
+//     },
+//     { _id: false } // Prevent creation of `_id` for sub-documents
+//   );
+
+//   // Main schema for job suggestions
+//   const JobSuggestionSchema = new mongoose.Schema(
+//     {
+//       name: { type: String, required: true }, // User's name
+//       company: { type: String, required: true }, // Company name
+//       position: { type: String, required: true }, // Job position
+//       jobDescription: { type: String, required: true }, // Job description
+//       suggestedCourses: { type: [CourseSchema], default: [] }, // Array of suggested courses
+//     },
+//     {
+//       versionKey: false, // Disables the `__v` field
+//     }
+//   );
+
+//   // Create and return the model
+//   const JobSuggestionModel = mongoose.model("jobSuggestions", JobSuggestionSchema);
+//   return JobSuggestionModel;
+// }
+
+// module.exports = { getJobSuggestionModel };
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 const mongoose = require("mongoose");
 
 function getJobSuggestionModel() {
+  // Define a sub-schema for skills associated with a course
+  const SkillSchema = new mongoose.Schema(
+    {
+      skillName: { type: String, required: true }, // Field for skill name
+    },
+    { _id: false } // Prevent creation of `_id` for sub-documents
+  );
+
   // Define a sub-schema for suggested courses
   const CourseSchema = new mongoose.Schema(
     {
       courseName: { type: String, required: true }, // Field for course name
       description: { type: String, required: true }, // Field for course description
+      skills: { type: [SkillSchema], default: [] }, // Array of skills associated with the course
     },
     { _id: false } // Prevent creation of `_id` for sub-documents
   );

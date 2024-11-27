@@ -190,33 +190,46 @@ def store_in_mongo(data):
 def recommend_skills_and_courses(username, company, position, job_description):
     # Prompt for the built-in LLM
     prompt = f"""
-    You are a career guidance assistant. Your task is to analyze the job description provided by the user and recommend the most relevant skills and courses they need to learn or improve upon. Please review the job description and identify core skills based on the user’s position and industry. Additionally, recommend three online courses or certifications to help them develop these skills.
+              You are a career guidance assistant. Your task is to analyze the job description provided by the user and recommend the most relevant skills and courses they need to learn or improve upon. Please review the job description and identify core skills based on the user’s position and industry. Additionally, recommend three online courses or certifications and specify the key skills they will gain from each course.
 
-    Here is the information provided by the user:
+              Here is the information provided by the user:
 
-    Name: {username}
-    Company: {company}
-    Position: {position}
-    Job Description: {job_description}
+              Name: {username}
+              Company: {company}
+              Position: {position}
+              Job Description: {job_description}
 
-    Based on this information, please respond with:
-    1. A list of 5-7 skills they should focus on. Ensure they are highly relevant to their role.
-    2. A list of 3 online courses or certifications that align with the identified skills.
+              Based on this information, please respond with:
 
-    Example Output:
+              A list of 5-7 skills they should focus on. Ensure they are highly relevant to their role.
+              A list of 3 online courses or certifications along with the key skills they will learn from each course.
+              Example Output:
 
-    Skills:
-    Skill 1
-    Skill 2
-    Skill 3
-    Skill 4
-    Skill 5
-
-    Courses:
-    1. [Course Name] - [Platform]
-    2. [Course Name] - [Platform]
-    3. [Course Name] - [Platform]
-    """
+              Skills:
+              
+              Skill 1
+              Skill 2
+              Skill 3
+              Skill 4
+              Skill 5
+              Courses and Skills Gained:
+              
+              Course 1: [Course Name] - [Platform]
+              
+              Skill 1
+              Skill 2
+              Skill 3
+              Course 2: [Course Name] - [Platform]
+              
+              Skill 1
+              Skill 2
+              Skill 3
+              Course 3: [Course Name] - [Platform]
+              
+              Skill 1
+              Skill 2
+              Skill 3
+              """
 
     # Call the OpenAI API
     try:

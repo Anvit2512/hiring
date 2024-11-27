@@ -6,6 +6,7 @@ import SignUp from "./components/SignUp";
 import InterviewPreparation from "./components/InterviewPreparation";
 import Footer from "./components/Footer";
 import Loader from "./components/Loader"; // Import Loader component
+import InterviewPractice from "./components/InterviewPractice";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -29,6 +30,7 @@ function App() {
             <Route path="/toSignIn" element={<SignIn />} />
             <Route path="/toSignUp" element={<SignUp />} />
             <Route path="/toIntrvPrep/:id" element={<InterviewPreparation />} />
+            <Route path="/toIntrPrac" element={<InterviewPractice></InterviewPractice>} />
           </Routes>
           <Footer />
         </>

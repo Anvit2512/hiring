@@ -101,13 +101,14 @@
 //---------------------------------------------------
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { baseURL } from "../services/axios-config";
 import DashNavbar from "./DashNavbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleRight } from "@fortawesome/free-solid-svg-icons";
 
 const InterviewPreparation = () => {
+  let navigate=useNavigate();
   const [suggestions, setSuggestions] = useState([]);
   const { id } = useParams();
 
@@ -155,6 +156,7 @@ const InterviewPreparation = () => {
                     className="text-green-400 hover:text-green-600 cursor-pointer"
                     size="2xl"
                     beat
+                    onClick={()=>{navigate("/toIntrPrac")}}
                   />
                   <div
                     className="absolute bottom-full mb-3 left-1/2 transform -translate-x-[50%] hidden group-hover:block bg-white text-black text-sm rounded-lg px-3 py-2 whitespace-nowrap transition-transform duration-700 ease-in-out opacity-0 group-hover:opacity-100 group-hover:scale-110"

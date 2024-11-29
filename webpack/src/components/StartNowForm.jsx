@@ -186,7 +186,7 @@ const StartNowForm = forwardRef((props, ref) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const url = `${baseURL}/api/process-form`;
+    const url = `${baseURL}/handle/process-form`;
 
     console.log("Submitting form data:", formData);
 

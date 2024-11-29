@@ -148,7 +148,7 @@ const InterviewPreparation = () => {
                   {suggestion.courseName} {/* Correct key for course name */}
                 </h3>
                 <span className="font-semibold" style={{ color: "#a3ff00" }}>
-                  50% Done
+                  0% Done
                 </span>
                 <div className="relative group">
                   <FontAwesomeIcon

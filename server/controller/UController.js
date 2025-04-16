@@ -144,8 +144,16 @@ var bodyparser = require("body-parser");
 const { getSignupModel } = require('../model/SignupModel');
 const { getJobSuggestionModel } = require("../model/JobSuggestionModel");
 const JobSuggestionModel = getJobSuggestionModel();
+const { OAuth2Client } = require('google-auth-library');
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID); 
+
 
 const SignModel = getSignupModel();
+
+const jwt = require('jsonwebtoken');  // Import jsonwebtoken library
+require('dotenv').config();
+const yourSecretKey = process.env.SEC_KEY;
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 
 function doSaveUserSignup(req, resp) {
   const doc = new SignModel(req.body);
@@ -163,7 +171,19 @@ function doSaveUserSignin(req, resp) {
   SignModel.findOne({ email: email }).then((user) => {
     if (user) {
       if (user.pass === pass) {
-        resp.json({ status: true, msg: user });
+        // Generate a JWT token
+        const token = jwt.sign(
+          { id: user._id, email: user.email },  // User payload (you can add more data as needed)
+          yourSecretKey,                      // Secret key for signing the token (should be kept secure)
+          { expiresIn: '1h' }                   // Set token expiry time (1 hour in this case)
+        );
+
+        // Send response with the token
+        resp.json({
+          status: true,
+          msg: 'Authenticated successfully',
+          token: token,  // Send the token back to the client
+        });
       } else {
         resp.json({ status: false, msg: "Incorrect Email or Password" });
       }
@@ -174,6 +194,50 @@ function doSaveUserSignin(req, resp) {
     resp.json({ status: false, err: err.message });
   });
 }
+
+// -------------------------Google signIn--------------------------
+async function doGoogleLogin(req, resp) {
+  const { token } = req.body; 
+
+  try {
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: GOOGLE_CLIENT_ID, 
+    });
+
+    const payload = ticket.getPayload();
+    const { email, name } = payload;
+
+    let user = await SignModel.findOne({ email: email });
+
+    if (!user) {
+      // If user doesn't exist, create a new one
+      user = new SignModel({
+        email: email,
+        name: name,
+        pass: "GOOGLE_AUTH",  // Dummy password
+      });
+      await user.save();
+    }
+
+    const authToken = jwt.sign(
+      { id: user._id, email: user.email },
+      process.env.SEC_KEY,
+      { expiresIn: '1h' }
+    );
+
+    resp.json({
+      status: true,
+      msg: 'Google login successful',
+      token: authToken,
+    });
+
+  } catch (error) {
+    console.error('Google Login Error:', error);
+    resp.status(400).json({ status: false, msg: 'Invalid Google token', error: error.message });
+  }
+}
+
 
 async function processForm(req, resp) {
   console.log("Received request body:", req.body);
@@ -694,5 +758,5 @@ async function getSuggestionsById(req, res) {
   }
 }
 
-module.exports = { doSaveUserSignup, doSaveUserSignin, processForm, fetchSuggestions, handleJobSuggestion,getSuggestionsById};
+module.exports = { doSaveUserSignup, doSaveUserSignin, doGoogleLogin, processForm, fetchSuggestions, handleJobSuggestion,getSuggestionsById};
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////

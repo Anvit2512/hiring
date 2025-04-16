@@ -13,7 +13,9 @@ import {
 import InterviewsCreated from "./InterviewsCreated";
 import StartNowForm from "./StartNowForm";
 import { useNavigate } from "react-router-dom";
-import Navbar from "./Navbar";
+import { useSelector, useDispatch } from "react-redux";
+import { clearToken } from "../redux/authSlice";  // adjust the path based on your project structure
+import toast from "react-hot-toast";
 export default function Index() {
   let navigate = useNavigate();
   // Create a ref for StartNowForm
@@ -38,6 +40,16 @@ export default function Index() {
       interviewsRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
+
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state.auth.token);
+
+  const handleLogout = () => {
+    dispatch(clearToken());
+    toast.success("Signed Out Successfully...");
+    navigate("/toSignIn");
+  };
+
 
   return (
     <>
@@ -88,14 +100,24 @@ export default function Index() {
           >
             Start Now
           </button>
-          <button
-            className="bg-purple-600 hover:bg-purple-900 transition duration-500 text-white px-6 py-2 ml-2 rounded-lg text-lg font-semibold"
-            onClick={() => {
-              navigate("/toSignIn");
-            }}
-          >
-            Sign In
-          </button>
+          {token ? (
+            <button
+              onClick={handleLogout}
+              className="bg-purple-600 hover:bg-purple-900 transition duration-500 text-white px-6 py-2 ml-2 rounded-lg text-lg font-semibold"
+            >
+              Sign Out
+            </button>
+          ) : (
+            <button
+              onClick={() => {
+                navigate("/toSignIn");
+              }}
+              className="bg-purple-600 hover:bg-purple-900 transition duration-500 text-white px-6 py-2 ml-2 rounded-lg text-lg font-semibold"
+            >
+              Sign In
+            </button>
+          )}
+
         </header>
         <main className="text-center">
           <div className="bg-gray-900 px-3 py-16 rounded-lg shadow-lg">

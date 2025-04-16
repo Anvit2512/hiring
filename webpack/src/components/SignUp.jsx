@@ -6,6 +6,7 @@ import { baseURL } from '../services/axios-config';
 import { useState } from "react";
 import Navbar from "./Navbar";
 import DashNavbar from "./DashNavbar";
+import toast from "react-hot-toast";
 
 export default function SignUp() {
   let navigate = useNavigate();
@@ -22,7 +23,7 @@ export default function SignUp() {
   async function doSignup() {
     // Check if email or password is empty
     if (obj.email.trim() === "" || obj.pass.trim() === "") {
-      alert("Please fill the email and password");
+      toast.error("Please fill the email and password");
       return;
     }
 
@@ -31,7 +32,7 @@ export default function SignUp() {
       const serverMsg = await axios.post(url, obj);
 
       if (serverMsg.data.status === true) {
-        alert("Signed up successfully!");
+        toast.success("Signed up successfully!");
         navigate("/toSignIn");
       } else {
         // Check if the error message indicates an existing email
@@ -39,16 +40,17 @@ export default function SignUp() {
           serverMsg.data.err &&
           serverMsg.data.err.includes("E11000 duplicate key error collection")
         ) {
-          alert(
+          toast.error(
             "There is already an Account with this Email ID, Please Sign In"
           );
         } else {
-          alert(serverMsg.data.err);
+          toast.error(serverMsg.data.err);
         }
       }
     } catch (error) {
       console.error("Error signing up:", error);
-      alert("An error occurred. Please try again later.");
+      //alert("An error occurred. Please try again later.");
+      toast.error("An error occurred. Please try again later.");
     }
   }
 

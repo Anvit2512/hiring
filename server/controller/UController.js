@@ -145,13 +145,13 @@ const { getSignupModel } = require('../model/SignupModel');
 const { getJobSuggestionModel } = require("../model/JobSuggestionModel");
 const JobSuggestionModel = getJobSuggestionModel();
 const { OAuth2Client } = require('google-auth-library');
+require('dotenv').config();
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID); 
 
 
 const SignModel = getSignupModel();
 
 const jwt = require('jsonwebtoken');  // Import jsonwebtoken library
-require('dotenv').config();
 const yourSecretKey = process.env.SEC_KEY;
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 
@@ -215,7 +215,7 @@ async function doGoogleLogin(req, resp) {
       user = new SignModel({
         email: email,
         name: name,
-        pass: "GOOGLE_AUTH",  // Dummy password
+        pass: "GOOGLE_AUTH" + Date.now(),  // Dummy password
       });
       await user.save();
     }
@@ -734,9 +734,8 @@ async function handleJobSuggestion(req, res) {
 }
 
 async function getSuggestionsById(req, res) {
-  const { id } = req.params;
-
   try {
+    const { id } = req.params;
     const jobSuggestions = await JobSuggestionModel.findById(id);
     if (!jobSuggestions) {
       return res.status(404).json({
@@ -745,7 +744,7 @@ async function getSuggestionsById(req, res) {
       });
     }
 
-    res.status(200).json({
+    return res.status(200).json({
       status: true,
       data: jobSuggestions,
     });

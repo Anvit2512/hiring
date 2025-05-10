@@ -143,27 +143,6 @@
 
 // export default StartNowForm;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import React, { forwardRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -171,10 +150,10 @@ import { baseURL } from "../services/axios-config";
 
 const StartNowForm = forwardRef((props, ref) => {
   const [formData, setFormData] = useState({
-    name: "",
+    username: "",
     company: "",
     position: "",
-    jobDescription: "",
+    job_description: "",
   });
 
   const navigate = useNavigate();
@@ -186,7 +165,7 @@ const StartNowForm = forwardRef((props, ref) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const url = `${baseURL}/handle/process-form`;
+    const url = `http://localhost:8000/handle/recommend-skills`;
 
     console.log("Submitting form data:", formData);
 
@@ -217,8 +196,8 @@ const StartNowForm = forwardRef((props, ref) => {
             <label className="block text-white text-md mb-1">Your Name</label>
             <input
               type="text"
-              name="name"
-              value={formData.name}
+              name="username"
+              value={formData.username}
               onChange={handleChange}
               className="lg:min-w-[300px] bg-gray-800 text-white border border-gray-600 rounded py-2 px-4 outline-none focus:border-white"
             />
@@ -251,8 +230,8 @@ const StartNowForm = forwardRef((props, ref) => {
               Job Description
             </label>
             <textarea
-              name="jobDescription"
-              value={formData.jobDescription}
+              name="job_description"
+              value={formData.job_description}
               onChange={handleChange}
               className="w-[900px] h-[400px] bg-gray-800 text-white border border-gray-600 rounded py-2 px-4 outline-none focus:border-white resize-y"
               placeholder="Enter job description here"

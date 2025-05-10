@@ -2,13 +2,17 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { TEInput, TERipple } from "tw-elements-react";
 import axios from "axios";
-import { baseURL } from '../services/axios-config';
+import { baseURL } from "../services/axios-config";
 import { useState } from "react";
 import Navbar from "./Navbar";
 import DashNavbar from "./DashNavbar";
 import toast from "react-hot-toast";
+import { GoogleLogin } from "@react-oauth/google";
+import { useDispatch } from "react-redux";
+import { setToken } from "../redux/authSlice";
 
 export default function SignUp() {
+  const dispatch = useDispatch();
   let navigate = useNavigate();
   const [obj, setObj] = useState({
     email: "",
@@ -54,6 +58,30 @@ export default function SignUp() {
     }
   }
 
+  const handleGoogleLogin = async (credentialResponse) => {
+    try {
+      const { credential } = credentialResponse;
+
+      // Send this credential (JWT) to your backend to verify
+      const response = await axios.post(`${baseURL}/signin/google-signin`, {
+        token: credential,
+      });
+
+      if (response.data.status === true) {
+        const token = response.data.token;
+        dispatch(setToken(token));
+        toast.success("Google Sign-Up Successful!");
+        navigate("/");
+      } else {
+        console.error(response.data.msg);
+        toast.error(response.data.msg || "Google Sign-Up Failed!");
+      }
+    } catch (error) {
+      console.error("Error during Google Sign-Up:", error);
+      toast.error("An error occurred during Google Sign-Up");
+    }
+  };
+
   return (
     <>
       <div className="bg-gray-900 text-white min-h-screen p-10">
@@ -73,6 +101,33 @@ export default function SignUp() {
 
               {/* Right column container with form */}
               <div className="md:w-8/12 lg:ml-6 lg:w-5/12">
+                <div className="flex justify-center">
+                  <GoogleLogin
+                    className="bg-gray-900"
+                    onSuccess={(credentialResponse) => {
+                      console.log(credentialResponse);
+                      handleGoogleLogin(credentialResponse);
+                    }}
+                    onError={() => {
+                      console.log("Sign-Up Failed");
+                      toast.error("Google Sign-Up Failed!");
+                    }}
+                    theme="outline"
+                    size="large"
+                    shape="pill"
+                    logo_alignment="left"
+                    ux_mode="popup"
+                    width="430px"
+                  />
+                </div>
+
+                {/* Divider with "OR" text */}
+                <div className="flex items-center justify-between my-4">
+                  <hr className="w-full border-gray-600" />
+                  <span className="text-gray-400 px-2 text-sm">OR</span>
+                  <hr className="w-full border-gray-600" />
+                </div>
+
                 <form>
                   {/* Email input */}
                   <TEInput

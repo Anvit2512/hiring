@@ -106,6 +106,7 @@ import { baseURL } from "../services/axios-config";
 import DashNavbar from "./DashNavbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleRight } from "@fortawesome/free-solid-svg-icons";
+import { parseRecommendations } from "./recommendationParser";
 
 const InterviewPreparation = () => {
   let navigate=useNavigate();
@@ -113,22 +114,41 @@ const InterviewPreparation = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    console.log("Fetching suggestions for ID:", id);
     const fetchSuggestions = async () => {
-      const url = `${baseURL}/api/suggestionss/${id}`;
       try {
-        const response = await axios.get(url);
+        console.log("Fetching suggestions for ID:", id);
+        const response = await axios.get(
+          `http://localhost:8000/handle/recommendations/${id}`
+        );
+
         console.log("Fetched suggestions:", response.data);
-        if (response.data.status) {
-          setSuggestions(response.data.data.suggestedCourses); // Update state with fetched data
+
+        if (response.data?.status) {
+          // Check if backend already parsed it
+          if (response.data.data?.parsed?.courses) {
+            setSuggestions(response.data.data.parsed.courses);
+          } 
+          // Otherwise parse the raw recommendations text
+          else if (response.data.data?.recommendations) {
+            const parsedData = parseRecommendations(response.data.data.recommendations);
+            setSuggestions(parsedData.courses || []);
+          } else {
+            throw new Error("No recommendations data found in response");
+          }
+        } else {
+          throw new Error("Invalid response format from server");
         }
       } catch (error) {
         console.error("Error fetching suggestions:", error);
+        setError(error.message || "Failed to load recommendations");
+        setSuggestions([]); // Clear any partial data
       }
     };
 
     fetchSuggestions();
   }, [id]);
+
+    if (!suggestions) return <p>Loading...</p>;
 
   return (
     <div className="bg-gray-950 text-white min-h-screen p-10">

@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-import skills_recommended  # Importing your skills_recommended module
+import skill_recommendation_api  # Importing your skills_recommended module
 from fastapi.middleware.cors import CORSMiddleware
 
 
@@ -9,13 +9,13 @@ app = FastAPI()
 
 # Define a request model using Pydantic for input validation
 class SkillsRequest(BaseModel):
-    username: str
     company: str
-    position: str
     job_description: str
+    position: str
+    username: str
 
 # Define a route for recommending skills and courses
-@app.post("/recommend-skills/")
+@app.post("/handle/recommend-skills")
 def recommend_skills_and_courses_endpoint(request: SkillsRequest):
     try:
         # Call the function from skills_recommended.py
@@ -25,10 +25,23 @@ def recommend_skills_and_courses_endpoint(request: SkillsRequest):
             position=request.position,
             job_description=request.job_description
         )
-        return {"recommendations": output}
+
+        # Get MongoDB insertion result
+        mongo_result = output.get("mongo_store_status", {})
+        inserted_id = mongo_result.get("inserted_id", None)
+
+        return {
+            "status": True,
+            "recommendations": output["recommendations"],
+            "data": {
+                "_id": inserted_id
+            }
+        }
     except Exception as e:
-        # Return a detailed error if something goes wrong
+        # Log the detailed error for debugging
+        print(f"Error occurred: {e}")  # Log the error
         raise HTTPException(status_code=500, detail=str(e))
+
 
 # A health check endpoint (optional)
 @app.get("/")
@@ -38,7 +51,7 @@ def health_check():
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173/"],  # Or specify your frontend URL: ["http://localhost:3000"]
+    allow_origins=["http://localhost:5173"],  # Or specify your frontend URL: ["http://localhost:3000"]
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

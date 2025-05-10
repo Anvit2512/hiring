@@ -9,7 +9,7 @@ import { Toaster } from "react-hot-toast";
 import { GoogleOAuthProvider } from '@react-oauth/google';  // <<== IMPORT here
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <GoogleOAuthProvider clientId=""> {/* <<== WRAP here */}
+  <GoogleOAuthProvider clientId="815613395507-lnl1cjafft5cmbub355es8a5590egvs1.apps.googleusercontent.com"> {/* <<== WRAP here */}
     <BrowserRouter>
       <Provider store={store}>
         <App />

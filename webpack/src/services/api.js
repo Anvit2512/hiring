@@ -1,11 +1,10 @@
 import axios from 'axios';
 
-// Axios instance
-const API = axios.create({ baseURL: 'http://127.0.0.1:8000' });
+const API = axios.create({ baseURL: 'http://localhost:2005' });  // fixed baseURL
 
 export const getSkillRecommendations = async (data) => {
     try {
-        const response = await API.post('/recommend-skills/', data);
+        const response = await API.post('/handle/recommend-skills', data);  // removed trailing slash
         return response.data.recommendations;
     } catch (error) {
         console.error('Error fetching recommendations:', error);
